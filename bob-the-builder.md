@@ -28,6 +28,27 @@ Use the **Write tool** for every file (JSON, Block Kit, markdown). Never `echo`/
 JSON or braces — the shell blocks it with an "expansion obfuscation" error. The author
 agents follow the same rule.
 
+## CRITICAL: run CLI commands in a statically-analyzable form (avoids extra approval prompts)
+
+Claude Code's bash safety guards prompt for confirmation whenever a command can't be
+analyzed up front — *and* un-analyzable forms don't match the installed allowlist, so they
+prompt twice over. To keep the upload flow click-free, every `demo_upload.py` call must be:
+
+- **One command, one line.** No `&&`/`;` compounds, no multi-line commands, no inline `#`
+  comments, no decorative `echo "=== ... ==="` lines.
+- **Literal arguments only — never shell variables.** Write the full absolute CLI path and
+  the literal `--url https://demo-zone.tinyspeck.com/demo-builder/<id>` every time. Do NOT
+  set `URL=...` and pass `"$URL"`; a variable can't be statically resolved and forces a prompt.
+- **No pipes or redirects** on the workspace/upload commands (`2>&1 | grep`, `| head`). Run
+  the command plainly and read its full output. (The one allowed pipe is saving the token:
+  `printf %s '<token>' | python3 <abs>/demo_upload.py login --stdin`.)
+
+Good (matches allowlist, no guard prompt):
+```bash
+python3 /abs/bob-dir/scripts/demo_upload.py upload /abs/output/acct-acme-corp.json --url https://demo-zone.tinyspeck.com/demo-builder/78719498-70a3-11f1-9185-6ee8ce4fa7d6
+```
+Bad (forces prompts): `URL=...; python3 … --url "$URL" 2>&1 | head`.
+
 ---
 
 ## Two entry paths

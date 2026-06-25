@@ -116,7 +116,9 @@ parses as JSON with a non-empty top-level `blocks` array — your self-validatio
 4. **Write `<output_dir>/<channel>.md`** — a readable preview (see the format in
    `examples/acct-acme-corp.md`): each message as `**[uuid]** Sender > text`, threads
    indented, reactions noted, plus a short summary.
-5. **Self-validate (REQUIRED).** Run:
+5. **Self-validate (REQUIRED).** Run it as ONE plain line with LITERAL absolute paths — no
+   shell variables, no pipes, no `&&`, no inline `#` comments (those trip Claude Code's bash
+   safety guards and force approval prompts):
    ```bash
    python3 <bob-dir>/scripts/demo_upload.py validate <output_dir>/<channel>.json
    ```
