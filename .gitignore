@@ -16,3 +16,6 @@ venv/
 
 # macOS
 .DS_Store
+
+# Internal planning doc — kept locally, not published
+BUILD_PLAN.md
