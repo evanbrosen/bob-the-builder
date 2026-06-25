@@ -1,0 +1,55 @@
+{
+  "app": "Service Cloud for Slack",
+  "fake_bot_id": "Service Cloud for Slack",
+  "notes": "Salesforce Service Cloud case notifications. Each example's `blocks` array must be JSON-serialized into an action's `text` field (the demo-zone schema has no blocks field). Header + section(fields) + context footer is the canonical case card.",
+  "examples": [
+    {
+      "name": "case_opened",
+      "when": "A new support case is created and posted to a swarm/help channel.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "🆕 New Case Opened", "emoji": true } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Case:*\n00012345" },
+          { "type": "mrkdwn", "text": "*Priority:*\nHigh" },
+          { "type": "mrkdwn", "text": "*Account:*\nAcme Corp" },
+          { "type": "mrkdwn", "text": "*Subject:*\nChiller unit reporting fault code E-204" }
+        ] },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "Opened via Email · SLA first response due in 1h" }
+        ] }
+      ]
+    },
+    {
+      "name": "case_updated",
+      "when": "Case status, owner, or priority changes.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "🔄 Case Updated", "emoji": true } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Case:*\n00012345" },
+          { "type": "mrkdwn", "text": "*Status:*\nEscalated → L2" },
+          { "type": "mrkdwn", "text": "*Owner:*\nJennifer Hynes" },
+          { "type": "mrkdwn", "text": "*Priority:*\nHigh" }
+        ] },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "Updated 2m ago · KB-0042 applied" }
+        ] }
+      ]
+    },
+    {
+      "name": "case_resolved",
+      "when": "A case is closed/resolved.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "✅ Case Resolved", "emoji": true } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Case:*\n00012345" },
+          { "type": "mrkdwn", "text": "*Resolution:*\nReplacement part dispatched, fault cleared" },
+          { "type": "mrkdwn", "text": "*Time to resolve:*\n3h 12m" },
+          { "type": "mrkdwn", "text": "*CSAT:*\nPending" }
+        ] },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "Closed by Jennifer Hynes" }
+        ] }
+      ]
+    }
+  ]
+}

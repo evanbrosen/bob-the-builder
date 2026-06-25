@@ -1,0 +1,39 @@
+{
+  "app": "Salesforce",
+  "fake_bot_id": "Salesforce",
+  "notes": "Salesforce / Sales Cloud record notifications (opportunities, accounts). Serialize an example's `blocks` array into an action's `text` field. Pairs naturally with leeroy-jenkins opportunity/account data. The bot may also appear as 'Sales Cloud for Slack' — match whatever name is in the workspace roster.",
+  "examples": [
+    {
+      "name": "opportunity_won",
+      "when": "An opportunity moves to Closed Won — celebratory post to an account or deal channel.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "🎉 Opportunity Closed Won", "emoji": true } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Opportunity:*\nAcme Corp — Platform Expansion" },
+          { "type": "mrkdwn", "text": "*Amount:*\n$250,000" },
+          { "type": "mrkdwn", "text": "*Stage:*\nClosed Won" },
+          { "type": "mrkdwn", "text": "*Owner:*\nFrank Reynolds" }
+        ] },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "Close date 2026-03-31 · Account: Acme Corp" }
+        ] }
+      ]
+    },
+    {
+      "name": "opportunity_updated",
+      "when": "An open opportunity changes stage or amount.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "📈 Opportunity Updated", "emoji": true } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Opportunity:*\nAcme Corp — Platform Expansion" },
+          { "type": "mrkdwn", "text": "*Stage:*\nNegotiation/Review" },
+          { "type": "mrkdwn", "text": "*Amount:*\n$250,000" },
+          { "type": "mrkdwn", "text": "*Close Date:*\n2026-06-30" }
+        ] },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "Updated by Frank Reynolds · 60% probability" }
+        ] }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+# Claude Code local session state (per-machine, not shared)
+.claude/settings.local.json
+
+# Machine-local skill override (absolute paths for global/symlinked installs)
+LOCAL.md
+
+# Generated demos — never commit ad-hoc output
+/output/*
+!/output/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# macOS
+.DS_Store
