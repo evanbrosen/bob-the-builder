@@ -1,0 +1,23 @@
+{
+  "app": "New Opportunity",
+  "fake_bot_id": "New Opportunity",
+  "notes": "Salesforce 'New Opportunity' notification bot — announces a newly created opportunity in a deal or account channel. Use this named bot when the workspace roster has a dedicated 'New Opportunity' bot. Serialize an example's `blocks` array into an action's `text` field. Typically the first card in a deal-pursuit conversation, in an early stage (Qualification / Prospecting).",
+  "examples": [
+    {
+      "name": "new_opportunity",
+      "when": "A new opportunity is created and enters an early pipeline stage — opening card of a deal channel.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "🆕 New Opportunity Created", "emoji": true } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Opportunity:*\nAcme Corp — Platform Expansion" },
+          { "type": "mrkdwn", "text": "*Amount:*\n$250,000" },
+          { "type": "mrkdwn", "text": "*Stage:*\nQualification" },
+          { "type": "mrkdwn", "text": "*Owner:*\nFrank Reynolds" }
+        ] },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "Account: Acme Corp · 24-month master supply" }
+        ] }
+      ]
+    }
+  ]
+}

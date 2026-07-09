@@ -1,0 +1,24 @@
+{
+  "app": "Google Calendar",
+  "fake_bot_id": "Google Calendar",
+  "notes": "Google Calendar for Slack event notifications. Serialize an example's `blocks` array into an action's `text` field. Common in account/deal channels when a meeting, QBR, or joint session is scheduled — often paired with a human follow-up in a thread. No 'View in Salesforce' button (this is a calendar app, not a CRM record); a calendar link button is optional.",
+  "examples": [
+    {
+      "name": "event_scheduled",
+      "when": "A meeting / QBR / joint working session is scheduled with a customer or internal team.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "📅 Event Scheduled", "emoji": true } },
+        { "type": "section", "text": { "type": "mrkdwn", "text": "*Acme Corp ⇄ Vendor — Quarterly Business Review*" } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*When:*\nJul 21, 2026 · 14:00–15:30 CEST" },
+          { "type": "mrkdwn", "text": "*Where:*\nZoom + Customer HQ" },
+          { "type": "mrkdwn", "text": "*Organizer:*\nJennifer Hynes" },
+          { "type": "mrkdwn", "text": "*Guests:*\nAdam Wexler +4" }
+        ] },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "Agenda: open items · renewal readiness · next-quarter roadmap" }
+        ] }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "app": "CRM Analytics",
+  "fake_bot_id": "CRM Analytics",
+  "notes": "Salesforce CRM Analytics (formerly Tableau CRM / Einstein Analytics) forecast & insight notifications. Serialize an example's `blocks` array into an action's `text` field. A Salesforce-family bot — its cards SHOULD end with a 'View in Salesforce' actions button linking to the related record (opportunity/dashboard): {\"type\":\"actions\",\"elements\":[{\"type\":\"button\",\"text\":{\"type\":\"plain_text\",\"text\":\"View in Salesforce\",\"emoji\":true},\"url\":\"<instanceUrl>/lightning/r/<Object>/<Id>/view\",\"style\":\"primary\"}]}. Great for open-deal channels to inject a forecast/probability signal.",
+  "examples": [
+    {
+      "name": "forecast_insight",
+      "when": "An open opportunity's forecast category / win probability shifts, or an opp is a large share of the period commit — a data-driven nudge in a deal room.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "📈 Forecast Insight — Q3 FY26 Commit", "emoji": true } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Opportunity:*\nAcme Corp — Platform Expansion" },
+          { "type": "mrkdwn", "text": "*Amount:*\n$1,250,000" },
+          { "type": "mrkdwn", "text": "*Forecast Category:*\nCommit" },
+          { "type": "mrkdwn", "text": "*Win Probability:*\n65% (↑ from 50%)" }
+        ] },
+        { "type": "section", "text": { "type": "mrkdwn", "text": "This single opp is *38% of the Q3 regional commit number*. Model flags two open risk drivers: an unresolved support case and an undecided pricing structure. Clearing both lifts modeled close probability to ~80%." } },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "Close date 2026-09-30 · Owner: Frank Reynolds · Days to close: 84" }
+        ] },
+        { "type": "actions", "elements": [
+          { "type": "button", "text": { "type": "plain_text", "text": "View in Salesforce", "emoji": true }, "url": "https://your-org.lightning.force.com/lightning/r/Opportunity/006XXXXXXXXXXXXXXX/view", "style": "primary" }
+        ] }
+      ]
+    }
+  ]
+}
