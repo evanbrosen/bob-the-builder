@@ -1,0 +1,43 @@
+{
+  "app": "Deal won",
+  "fake_bot_id": "Deal won",
+  "notes": "Salesforce 'Deal won' notification bot — fires a celebratory Closed Won card into a deal or account channel. Distinct from the generic 'Salesforce' bot: use this named bot when the workspace roster has a dedicated 'Deal won' bot. Serialize an example's `blocks` array into an action's `text` field. Pairs naturally with leeroy-jenkins Closed Won opportunity data; the optional End Brand field suits converter/reseller demos where the account and the end brand differ.",
+  "examples": [
+    {
+      "name": "deal_won",
+      "when": "An opportunity moves to Closed Won — celebratory post to a deal or account channel.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "🎉 Opportunity Closed Won", "emoji": true } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Opportunity:*\nAcme Corp — Platform Expansion" },
+          { "type": "mrkdwn", "text": "*Amount:*\n$250,000" },
+          { "type": "mrkdwn", "text": "*Stage:*\nClosed Won" },
+          { "type": "mrkdwn", "text": "*Owner:*\nFrank Reynolds" }
+        ] },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "Close date 2026-03-31 · Account: Acme Corp" }
+        ] }
+      ]
+    },
+    {
+      "name": "deal_won_with_end_brand",
+      "when": "Closed Won where the buying account (e.g. a converter/reseller) differs from the end brand the product serves. Useful for value-added-distribution demos.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "🎉 Opportunity Closed Won", "emoji": true } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Opportunity:*\nAcme Corp — Retail RFID Pilot 2025" },
+          { "type": "mrkdwn", "text": "*Amount:*\n$680,000" },
+          { "type": "mrkdwn", "text": "*Stage:*\nClosed Won" },
+          { "type": "mrkdwn", "text": "*Owner:*\nFrank Reynolds" }
+        ] },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Account:*\nAcme Corp (converter)" },
+          { "type": "mrkdwn", "text": "*End Brand:*\nGlobex Cosmetics" }
+        ] },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "Close date 2025-05-15 · Products: UHF inlays · First foothold at the account" }
+        ] }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "app": "Stage changed",
+  "fake_bot_id": "Stage changed",
+  "notes": "Salesforce 'Stage changed' notification bot — posts when an opportunity moves between stages. Use this named bot when the workspace roster has a dedicated 'Stage changed' bot. Serialize an example's `blocks` array into an action's `text` field. The Closed Lost variant carries a Loss Reason section — ideal opening card for a deal post-mortem channel.",
+  "examples": [
+    {
+      "name": "stage_changed_closed_lost",
+      "when": "An opportunity moves to Closed Lost — opening card of a deal post-mortem channel; includes a Loss Reason.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "Stage Changed → Closed Lost", "emoji": true } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Opportunity:*\nAcme Corp — Beverage Program 2025" },
+          { "type": "mrkdwn", "text": "*Amount:*\n$920,000" },
+          { "type": "mrkdwn", "text": "*Stage:*\nClosed Lost" },
+          { "type": "mrkdwn", "text": "*Owner:*\nFrank Reynolds" }
+        ] },
+        { "type": "section", "text": { "type": "mrkdwn", "text": "*Loss Reason:* Lost to incumbent on price (~6% gap) plus existing supplier qualification on the customer's lines. Switching cost decisive." } },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "Close date 2025-11-10 · Product: Widget A · Account: Acme Corp" }
+        ] }
+      ]
+    },
+    {
+      "name": "stage_changed_advanced",
+      "when": "An open opportunity advances to a later stage (e.g. Negotiation/Review).",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "📊 Stage Changed", "emoji": true } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Opportunity:*\nAcme Corp — Platform Expansion" },
+          { "type": "mrkdwn", "text": "*Previous Stage:*\nValue Proposition" },
+          { "type": "mrkdwn", "text": "*New Stage:*\nNegotiation/Review" },
+          { "type": "mrkdwn", "text": "*Owner:*\nFrank Reynolds" }
+        ] },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "Amount $250,000 · Close date 2026-06-30 · 70% probability" }
+        ] }
+      ]
+    }
+  ]
+}
