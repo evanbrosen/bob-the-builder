@@ -1,0 +1,19 @@
+{
+  "app": "Polly",
+  "fake_bot_id": "Polly",
+  "notes": "Polly for Slack poll notifications. Serialize an example's `blocks` array into an action's `text` field. Poll card = header (Poll: <question>) + a prompt section + an options section listing numbered choices (use :one:/:two:/:three:/:four: emoji) + a context footer with poll type (ranked choice / multiple choice), anonymity, close time, and response count. Fits team/manager channels for prioritization or sentiment.",
+  "examples": [
+    {
+      "name": "ranked_choice_poll",
+      "when": "A manager posts a ranked-choice poll to prioritize the quarter's work.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "Poll: Rank your Q3 priorities", "emoji": true } },
+        { "type": "section", "text": { "type": "mrkdwn", "text": "Managers — rank where your teams' effort should weight this quarter. Ranked choice, 1 = highest." } },
+        { "type": "section", "text": { "type": "mrkdwn", "text": ":one:  *TBMNC Opcenter stability*\n:two:  *OTA pipeline prod readiness*\n:three:  *vista data platform (Databricks)*\n:four:  *Dealer AgentAsk rollout*" } },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "Polly · Ranked choice · Anonymous · Closes Fri 5:00 PM CT · 4 of 9 responded" }
+        ] }
+      ]
+    }
+  ]
+}

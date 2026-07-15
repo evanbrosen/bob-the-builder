@@ -1,0 +1,61 @@
+{
+  "app": "GitHub",
+  "fake_bot_id": "GitHub",
+  "notes": "GitHub for Slack notifications (PRs, releases, Dependabot alerts). Serialize an example's `blocks` array into an action's `text` field. PR-merged card = header (Pull request merged) + a summary section with a linked PR title + section(fields) for Repository/Merged by/Branch/Reviews + a context footer with commit/diff stats. Also includes a critical Dependabot security-alert card and a release-published card. Fits dev/DevOps/security channels.",
+  "examples": [
+    {
+      "name": "pull_request_merged",
+      "when": "A PR is merged to a shared repo; posted to a dev/platform channel.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "Pull request merged", "emoji": true } },
+        { "type": "section", "text": { "type": "mrkdwn", "text": "*<https://github.com/TOYOTA/onetech-platform-core/pull/482|#482 · feat(telemetry): shared OpenTelemetry + Datadog instrumentation module>*  Adds a reusable telemetry module to `platform-core` so downstream services get traces, metrics, and log correlation from a single import." } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Repository:* TOYOTA/onetech-platform-core" },
+          { "type": "mrkdwn", "text": "*Merged by:* quentin_engineer" },
+          { "type": "mrkdwn", "text": "*Branch:* `main` ← `feat/telemetry-module`" },
+          { "type": "mrkdwn", "text": "*Reviews:* 2 approved — carlos_gonzalez, emily_development" }
+        ] },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "18 commits · +612 −47 across 14 files · CI green ✅" }
+        ] }
+      ]
+    },
+    {
+      "name": "dependabot_critical_alert",
+      "when": "Dependabot detects a critical CVE in a production dependency; posted to a security/vuln channel.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "🚨 Critical Dependabot Alert", "emoji": true } },
+        { "type": "section", "text": { "type": "mrkdwn", "text": "*TOYOTA/connected-remote-connect-api* — a *critical* severity vulnerability was detected in a production dependency." } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Package:*\nspring-beans (Maven)" },
+          { "type": "mrkdwn", "text": "*Severity:*\nCritical" },
+          { "type": "mrkdwn", "text": "*Advisory:*\nCVE-2022-22965 · Spring4Shell" },
+          { "type": "mrkdwn", "text": "*CVSS:*\n9.8 / 10.0" },
+          { "type": "mrkdwn", "text": "*Vulnerable:*\n>= 5.3.0, < 5.3.18" },
+          { "type": "mrkdwn", "text": "*Patched:*\n5.3.18" }
+        ] },
+        { "type": "section", "text": { "type": "mrkdwn", "text": "Remote code execution via data binding on JDK 9+ (`class.module.classLoader`). Exploitable on internet-facing Spring MVC endpoints — a customer-facing service is in scope." } },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "Dependabot · github.com/TOYOTA · detected 3 min ago · 2 repos affected" }
+        ] }
+      ]
+    },
+    {
+      "name": "release_published",
+      "when": "A signed release/tag is published; posted to a release or deployment channel.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "New release published", "emoji": true } },
+        { "type": "section", "text": { "type": "mrkdwn", "text": "*TOYOTA/audio-multimedia-ota* — release *v2026.28.0*" } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Tag:*\nv2026.28.0" },
+          { "type": "mrkdwn", "text": "*Signature:*\nGPG verified" },
+          { "type": "mrkdwn", "text": "*Includes:*\nMultimedia SW · Map tiles · Google POI" },
+          { "type": "mrkdwn", "text": "*RXSWIN:*\nupdated in SUMS registry" }
+        ] },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "18 commits since v2026.27.3 · signed by ci-signer · merged by vivian_yang" }
+        ] }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "app": "Deploy Wizard",
+  "fake_bot_id": "Deploy Wizard",
+  "notes": "Deploy Wizard staged-rollout deployment notifications. Serialize an example's `blocks` array into an action's `text` field. Deployment card = header (🚀 Deployment — <artifact/version>) + section(fields) for Target/Strategy/Package/Compliance + a rollout-stages section using 🟢 (in progress) / ⚪ (held) markers for Canary → 10% → Fleet + a context footer noting the approval gate. Pair with a 'paused at production gate' card to stage a blocked-on-manager-approval beat. Fits deployment/release channels.",
+  "examples": [
+    {
+      "name": "staged_rollout_started",
+      "when": "A staged rollout begins with a canary wave; later stages held behind an approval gate.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "🚀 Deployment — Toyota Audio Multimedia OTA v2026.28.0", "emoji": true } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Target:*\nMultimedia head units" },
+          { "type": "mrkdwn", "text": "*Strategy:*\nStaged rollout" },
+          { "type": "mrkdwn", "text": "*Package:*\nsigned · RXSWIN updated" },
+          { "type": "mrkdwn", "text": "*Compliance:*\nR156 SUMS process" }
+        ] },
+        { "type": "section", "text": { "type": "mrkdwn", "text": "*Rollout stages*\n🟢 *Canary* — 500 units — _in progress_\n⚪ *10%* — held\n⚪ *Fleet* — held" } },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "Prod gate requires manager approval before promoting past canary" }
+        ] }
+      ]
+    },
+    {
+      "name": "rollout_paused_at_gate",
+      "when": "The canary is healthy but promotion to production is blocked at the manager approval gate.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "⏸️ Rollout paused at production gate", "emoji": true } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Release:*\nv2026.28.0" },
+          { "type": "mrkdwn", "text": "*Canary:*\n✅ complete · healthy" },
+          { "type": "mrkdwn", "text": "*Next stage:*\n10% wave" },
+          { "type": "mrkdwn", "text": "*Status:*\nHeld — awaiting approval" }
+        ] },
+        { "type": "section", "text": { "type": "mrkdwn", "text": "Canary cohort is green. Promotion to the *10% → fleet* production rollout is blocked at the manager approval gate." } },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "Approve to resume · abandon to re-queue next cycle" }
+        ] }
+      ]
+    }
+  ]
+}

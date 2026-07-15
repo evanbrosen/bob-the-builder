@@ -1,0 +1,43 @@
+{
+  "app": "PagerDuty",
+  "fake_bot_id": "PagerDuty",
+  "notes": "PagerDuty incident notifications. Serialize an example's `blocks` array into an action's `text` field (the demo-zone schema has no blocks field). Canonical incident card = header (🚨 SEV/severity Triggered) + a one-line summary section + section(fields) for Severity/Service/Triggered/Urgency/Assigned + a context footer with the incident # and escalation policy. Pair the Triggered card with a Resolved card (✅ … Resolved) that carries MTTR + Resolved by. Great for incident/ops channels; the human on-call replies in a thread on the triggered card.",
+  "examples": [
+    {
+      "name": "incident_triggered",
+      "when": "A monitor/alert opens a SEV incident and pages the on-call; posted to an incident channel.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "🚨 SEV-1 Triggered — Siemens Opcenter", "emoji": true } },
+        { "type": "section", "text": { "type": "mrkdwn", "text": "*Latency spike detected in Siemens Opcenter (MOM/MES)* — API p99 breaching threshold on the Quality module." } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Severity:*\nSEV-1 (Critical)" },
+          { "type": "mrkdwn", "text": "*Service:*\nSiemens Opcenter — MOM/MES" },
+          { "type": "mrkdwn", "text": "*Plant:*\nTBMNC — Liberty, NC" },
+          { "type": "mrkdwn", "text": "*Triggered:*\nJul 15, 2026 · 14:07 CT" },
+          { "type": "mrkdwn", "text": "*Urgency:*\nHigh" },
+          { "type": "mrkdwn", "text": "*Assigned:*\nOT Manufacturing — On-Call" }
+        ] },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "PagerDuty · Incident #INC-4471 · Escalation Policy: OneTech Manufacturing OT" }
+        ] }
+      ]
+    },
+    {
+      "name": "incident_resolved",
+      "when": "The incident is resolved; posts MTTR and who resolved it.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "✅ SEV-1 Resolved — Siemens Opcenter", "emoji": true } },
+        { "type": "section", "text": { "type": "mrkdwn", "text": "*Incident resolved.* Blocking DB session cleared; Opcenter Quality latency back to baseline. Line never stopped." } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Status:*\nResolved" },
+          { "type": "mrkdwn", "text": "*Service:*\nSiemens Opcenter — MOM/MES" },
+          { "type": "mrkdwn", "text": "*MTTR:*\n22 min" },
+          { "type": "mrkdwn", "text": "*Resolved by:*\nquentin_engineer" }
+        ] },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "PagerDuty · Incident #INC-4471 · Resolved Jul 15, 2026 · 14:29 CT" }
+        ] }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "app": "Datadog",
+  "fake_bot_id": "Datadog",
+  "notes": "Datadog monitor-alert notifications. Serialize an example's `blocks` array into an action's `text` field. Canonical alert card = header (🔴 [Triggered] <monitor>) + section(fields) for Monitor/Status/Metric/Threshold/Value + an optional correlated-metric section + a context footer with Monitor #, priority, env/cloud tags, timestamp. Pair the Triggered card with a Recovered card (✅ [Recovered] …) carrying the recovered value + time-to-recover. Fits SRE/ops/observability channels.",
+  "examples": [
+    {
+      "name": "monitor_triggered",
+      "when": "A metric monitor breaches threshold (latency/error rate/throughput) and alerts an ops channel.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "🔴 [Triggered] MSPF — API p99 Latency & Error Rate High", "emoji": true } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Monitor:*\nmspf-prod / connected-services p99 latency" },
+          { "type": "mrkdwn", "text": "*Status:*\nAlert" },
+          { "type": "mrkdwn", "text": "*Metric:*\naws.lambda.duration.p99{service:mspf-ingest,region:us-east-1}" },
+          { "type": "mrkdwn", "text": "*Threshold:*\n> 500 ms (5m avg)" },
+          { "type": "mrkdwn", "text": "*Value:*\n912 ms" },
+          { "type": "mrkdwn", "text": "*5xx error rate:*\n4.7% (was 0.2%)" }
+        ] },
+        { "type": "section", "text": { "type": "mrkdwn", "text": "Also firing: *aws.kinesis.put_records.throttled_records{stream:mspf-telemetry-ingest}* — write throughput exceeded; consumer Lambda showing elevated throttles. Scope: *us-east-1* only." } },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "Monitor #4471288 · Priority P2 · env:prod · cloud:aws · 2026-07-15 14:32 ET · @here" }
+        ] }
+      ]
+    },
+    {
+      "name": "monitor_recovered",
+      "when": "The monitor returns to OK; posts the recovered values and time-to-recover.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "✅ [Recovered] MSPF — API p99 Latency & Error Rate High", "emoji": true } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Monitor:*\nmspf-prod / connected-services p99 latency" },
+          { "type": "mrkdwn", "text": "*Status:*\nOK" },
+          { "type": "mrkdwn", "text": "*p99 now:*\n168 ms" },
+          { "type": "mrkdwn", "text": "*5xx error rate:*\n0.2%" },
+          { "type": "mrkdwn", "text": "*Kinesis throttles:*\n0/min" },
+          { "type": "mrkdwn", "text": "*Time to recover:*\n27m" }
+        ] },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "Monitor #4471288 · Recovered 2026-07-15 14:59 ET · triggered 14:32 ET · env:prod · cloud:aws" }
+        ] }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "app": "ServiceNow",
+  "fake_bot_id": "ServiceNow",
+  "notes": "ServiceNow for Slack notifications (access requests / RITMs, change requests, major incidents, SecOps alerts). Serialize an example's `blocks` array into an action's `text` field. Approval-style cards (access request, change, PO) end with a context footer whose Status is *Pending Approval* and name an approver — leave these UNANSWERED to stage a pending-approval demo beat. Major-incident cards pair a Created card with a Resolved card. Fits ops/incident/security/approvals channels.",
+  "examples": [
+    {
+      "name": "access_request_pending",
+      "when": "An access request (RITM) is routed to a manager for approval; left pending on purpose.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "🔐 Access Request — Approval Needed", "emoji": true } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Request:*\nRITM0048817" },
+          { "type": "mrkdwn", "text": "*Requested for:*\nQuentin — Platform Eng" },
+          { "type": "mrkdwn", "text": "*Item:*\nProd DB access — TBMNC Siemens Opcenter MES" },
+          { "type": "mrkdwn", "text": "*Access level:*\nRead/Write (cutover window only)" },
+          { "type": "mrkdwn", "text": "*Justification:*\nGo-live data-sync validation & cutover" },
+          { "type": "mrkdwn", "text": "*Approver:*\nJennifer Hynes" }
+        ] },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "Status: *Pending Approval*  ·  CI: TBMNC-OPCENTER-PROD  ·  Submitted 2h ago" }
+        ] }
+      ]
+    },
+    {
+      "name": "emergency_change_request",
+      "when": "An out-of-cycle emergency change needs manager authorization before the window can open.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "🔧 Emergency Change Request — CHG0048217", "emoji": true } },
+        { "type": "section", "text": { "type": "mrkdwn", "text": "*Out-of-cycle production patch* — Spring4Shell (CVE-2022-22965) remediation across affected services." } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Number:*\nCHG0048217" },
+          { "type": "mrkdwn", "text": "*Type:*\nEmergency" },
+          { "type": "mrkdwn", "text": "*Risk:*\nHigh" },
+          { "type": "mrkdwn", "text": "*State:*\nAssess → Authorize" },
+          { "type": "mrkdwn", "text": "*Assignment group:*\nProduct Cybersecurity (PCG)" },
+          { "type": "mrkdwn", "text": "*Planned start:*\nTonight 22:00 CT" }
+        ] },
+        { "type": "section", "text": { "type": "mrkdwn", "text": "*Affected CIs:* Remote Connect command API (customer-facing) · VSC&L Logistics API (internal). *Approval required from the OneTech Manager before the change window can open.*" } },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "ServiceNow · Change Management · requested by Adrienne (PCG) · SLA: authorize within 2h" }
+        ] }
+      ]
+    },
+    {
+      "name": "major_incident_created",
+      "when": "A major incident (P1/P2) record is opened during a bridge; pair with a resolved card.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "🟠 Major Incident Created", "emoji": true } },
+        { "type": "section", "text": { "type": "mrkdwn", "text": "*INC0428817 — OneTech SSO / Okta authentication degradation*" } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Priority:*\nP2 · High" },
+          { "type": "mrkdwn", "text": "*State:*\nIn Progress" },
+          { "type": "mrkdwn", "text": "*Category:*\nIdentity & Access" },
+          { "type": "mrkdwn", "text": "*Assignment Group:*\nIdentity On-Call" },
+          { "type": "mrkdwn", "text": "*Opened By:*\nCarlos Gonzalez" },
+          { "type": "mrkdwn", "text": "*Impact / Urgency:*\nHigh / High" }
+        ] },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "ServiceNow · Major Incident · CI: Okta SSO (Plano)" }
+        ] }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "app": "Jira Cloud",
+  "fake_bot_id": "Jira Cloud",
+  "notes": "Jira Cloud for Slack issue notifications. Serialize an example's `blocks` array into an action's `text` field. Issue card = header + a section with a linked issue key/summary + section(fields) for Status/Assignee/Priority/Sprint (or a status-transition string like 'In Progress → Ready for QA') + a context footer with project/points/epic. Includes a richer Epic card with an inline checklist section (uses :white_check_mark:/:red_circle: emoji) for go-live/readiness gates. Fits dev/project/ops channels.",
+  "examples": [
+    {
+      "name": "issue_created",
+      "when": "A ticket is opened (e.g., a follow-up fix after an incident).",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "🧩 Jira issue created", "emoji": true } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Issue:*\n<https://toyota.atlassian.net|MSPF-2087>" },
+          { "type": "mrkdwn", "text": "*Type:*\nStory" },
+          { "type": "mrkdwn", "text": "*Priority:*\nHigh" },
+          { "type": "mrkdwn", "text": "*Project:*\nMobility Services Platform" }
+        ] },
+        { "type": "section", "text": { "type": "mrkdwn", "text": "*Summary:* Enable Kinesis on-demand capacity mode for `mspf-telemetry-ingest` and rework consumer Lambda reserved concurrency (permanent fix for incident INC-7742)." } },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "Reporter: carlos_gonzalez · Assignee: Unassigned · Sprint: SRE 26.14 · Labels: reliability, kinesis, lambda" }
+        ] }
+      ]
+    },
+    {
+      "name": "issue_transitioned",
+      "when": "An issue changes status (e.g., moves to Ready for QA).",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "ONETECH-1487 moved to Ready for QA", "emoji": true } },
+        { "type": "section", "text": { "type": "mrkdwn", "text": "*<https://toyota.atlassian.net/browse/ONETECH-1487|ONETECH-1487>*  Harden secrets rotation in platform-core auth module" } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Status:* In Progress → Ready for QA" },
+          { "type": "mrkdwn", "text": "*Assignee:* aisha_nguyen" },
+          { "type": "mrkdwn", "text": "*Priority:* High" },
+          { "type": "mrkdwn", "text": "*Sprint:* OneTech Platform — Sprint 27" }
+        ] },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "Project: OneTech Platform · Story points: 5 · Epic: Cutover Readiness" }
+        ] }
+      ]
+    },
+    {
+      "name": "epic_with_checklist",
+      "when": "An epic/readiness gate summary with an inline checklist (go-live cutover, release gate).",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "Jira · Epic TBMNC-1420", "emoji": true } },
+        { "type": "section", "text": { "type": "mrkdwn", "text": "*<https://toyota.atlassian.net/browse/TBMNC-1420|TBMNC-1420 · Opcenter MES Go-Live Readiness — Cutover Gate>*" } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Status:*\nIn Review" },
+          { "type": "mrkdwn", "text": "*Assignee:*\nSachin Sheth" },
+          { "type": "mrkdwn", "text": "*Priority:*\nHighest" },
+          { "type": "mrkdwn", "text": "*Fix Version:*\nTBMNC Cutover W1" }
+        ] },
+        { "type": "section", "text": { "type": "mrkdwn", "text": "*Cutover checklist — 7 of 8 complete*\n:white_check_mark: Discrete — station routing + WIP tracking\n:white_check_mark: Foundation — master data + user roles\n:white_check_mark: Quality — SPC + defect genealogy\n:white_check_mark: Logistics — kanban / material flow to ERP\n:white_check_mark: PLC + SCADA device layer connected\n:white_check_mark: Nexus / Ignition tags mapped (14 lines)\n:white_check_mark: Cutover runbook + rollback signed off\n:red_circle: Prod DB access — pending approval" } },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "Sprint: TBMNC Cutover W1 · 8 stories · updated by Sachin Sheth" }
+        ] }
+      ]
+    }
+  ]
+}

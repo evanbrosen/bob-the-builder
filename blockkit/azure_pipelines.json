@@ -1,0 +1,42 @@
+{
+  "app": "Azure Pipelines",
+  "fake_bot_id": "Azure Pipelines",
+  "notes": "Azure Pipelines for Slack build/release notifications. Serialize an example's `blocks` array into an action's `text` field. Build card = header (🟢 Build succeeded) + a linked build title section + section(fields) for Pipeline/Branch/Result/Triggered by + a stage-progression section (✅ per stage) + a duration/artifact context. Release cards can show a stage chain (Build → Sign → Stage → ⏳ Prod-Gate) where the gate is 'awaiting approval' to stage a pending-approval beat. Fits CI/CD/DevOps/release channels.",
+  "examples": [
+    {
+      "name": "build_succeeded",
+      "when": "A CI build passes all stages after a merge; posted to a dev/DevOps channel.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "🟢 Build succeeded", "emoji": true } },
+        { "type": "section", "text": { "type": "mrkdwn", "text": "*<https://dev.azure.com/TMNA/AudioMultimedia/_build/results?buildId=1287|audio-multimedia-nextgen · Build #1287>*\nAGL head-unit image built with the Woven Arene SDK build integrated." } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Pipeline:*\naudio-multimedia-nextgen" },
+          { "type": "mrkdwn", "text": "*Branch:*\nmain" },
+          { "type": "mrkdwn", "text": "*Result:*\nSucceeded" },
+          { "type": "mrkdwn", "text": "*Triggered by:*\nmerge of PR #482" }
+        ] },
+        { "type": "section", "text": { "type": "mrkdwn", "text": "*Stages:*  ✅ Restore · ✅ Build (AGL Yocto) · ✅ Arene SDK integration · ✅ Unit tests (2,140 passed) · ✅ Package head-unit image" } },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "Duration 22m 47s · Artifact hu-image-1287.img published to feed" }
+        ] }
+      ]
+    },
+    {
+      "name": "release_awaiting_approval",
+      "when": "A release pipeline reaches a production gate that requires manager approval; stage chain shows the gate pending.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "Azure Pipelines · multimedia-ota-release", "emoji": true } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Pipeline:*\nmultimedia-ota-release" },
+          { "type": "mrkdwn", "text": "*Run:*\n#2026.28.0 · build 4471" },
+          { "type": "mrkdwn", "text": "*Artifact:*\nToyota Audio Multimedia OTA" },
+          { "type": "mrkdwn", "text": "*Branch:*\nrelease/2026.28" }
+        ] },
+        { "type": "section", "text": { "type": "mrkdwn", "text": "*Stages*   ✅ Build  →  ✅ Sign  →  ✅ Stage  →  ⏳ Prod-Gate (awaiting approval)" } },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "RXSWIN updated · package signed · triggered by emily_development @ a1f9c02" }
+        ] }
+      ]
+    }
+  ]
+}

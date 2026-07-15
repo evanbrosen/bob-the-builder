@@ -1,0 +1,44 @@
+{
+  "app": "Workday",
+  "fake_bot_id": "Workday",
+  "notes": "Workday for Slack notifications (recruiting requisitions, time-off / overtime approvals). Serialize an example's `blocks` array into an action's `text` field. Requisition card = header + a role/team section + section(fields) for Req ID/Location/Level/Openings/Start/Status, optionally with an 'Open in Workday' button accessory. Overtime/approval cards end with a *Pending Approval* status + an approver + a deadline — leave unanswered to stage a pending-approval beat. Fits manager/ops/approvals channels.",
+  "examples": [
+    {
+      "name": "requisition_approved",
+      "when": "A headcount requisition is approved and ready to post; discussed by managers.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "Requisition Approved — Ready to Post", "emoji": true } },
+        { "type": "section", "text": { "type": "mrkdwn", "text": "*Senior Site Reliability Engineer*\nOneTech — Platform & SRE" } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Req ID:*\nR-2026-04871" },
+          { "type": "mrkdwn", "text": "*Location:*\nPlano, TX (Hybrid)" },
+          { "type": "mrkdwn", "text": "*Job Level:*\nP4 — Senior IC" },
+          { "type": "mrkdwn", "text": "*Openings:*\n1" },
+          { "type": "mrkdwn", "text": "*Target Start:*\nQ3 FY26" },
+          { "type": "mrkdwn", "text": "*Status:*\nApproved — Awaiting HM assignment" }
+        ], "accessory": { "type": "button", "text": { "type": "plain_text", "text": "Open in Workday", "emoji": true }, "url": "https://workday.toyota.com/req/R-2026-04871" } },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "Workday Recruiting · Backfill for Plano SRE headcount · Hiring manager unassigned" }
+        ] }
+      ]
+    },
+    {
+      "name": "overtime_request_pending",
+      "when": "An overtime request is routed to a manager for approval; left pending on purpose.",
+      "blocks": [
+        { "type": "header", "text": { "type": "plain_text", "text": "⏱️ Overtime Request — Approval Needed", "emoji": true } },
+        { "type": "section", "fields": [
+          { "type": "mrkdwn", "text": "*Request:*\nOT-2026-0442" },
+          { "type": "mrkdwn", "text": "*Submitted by:*\nAlf — Ops" },
+          { "type": "mrkdwn", "text": "*Team:*\nTBMNC Plant-Floor Cutover Crew" },
+          { "type": "mrkdwn", "text": "*Coverage:*\nSat–Sun, both shifts · 14 lines" },
+          { "type": "mrkdwn", "text": "*Est. OT cost:*\n$38,600" },
+          { "type": "mrkdwn", "text": "*Approver:*\nJennifer Hynes" }
+        ] },
+        { "type": "context", "elements": [
+          { "type": "mrkdwn", "text": "Status: *Pending Approval*  ·  Payroll cutoff: Wed 5:00 PM CT" }
+        ] }
+      ]
+    }
+  ]
+}
