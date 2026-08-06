@@ -51,8 +51,8 @@ upload. No leeroy edits needed — see the worked example in `reference/CONTRACT
   web-searches unknown apps and offers to save new examples after upload).
 - **Append by default.** Re-push one channel with `--replace-channel`, or the whole demo with
   `--replace`. `create-channel` is duplicate-guarded.
-- **Generated files** go to `output/` (gitignored) or a caller-supplied dir — never scattered
-  into source.
+- **Generated files** go to a per-customer folder `output/<customer-slug>/` (gitignored) or a
+  caller-supplied dir — one self-contained folder per run, never scattered into source.
 - **Never writes JSON via bash** (avoids the shell's "expansion obfuscation" block) — all files
   via the editor tool.
 
@@ -68,6 +68,6 @@ bob-the-builder/
 │   └── CONTRACTS.md                    # integration contracts A/B/C
 ├── blockkit/                           # per-app Block Kit examples
 ├── examples/                           # a valid demo + preview + a worked brief
-├── output/                             # generated files land here (gitignored)
+├── output/<customer-slug>/            # generated files, one folder per customer (gitignored)
 └── install.sh
 ```

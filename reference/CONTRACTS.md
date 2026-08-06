@@ -20,7 +20,7 @@ Launch the agent (via the Agent tool) with a single JSON payload:
 {
   "brief":       "Free text OR a structured doc. A leeroy account_<Name>.md works as-is.",
   "channel":     "acct-acme-corp",
-  "output_dir":  "/abs/path/where/files/are/written",
+  "output_dir":  "/abs/path/output/<customer-slug>/",
   "roster":      {
     "users": ["adam", "jenny", "frank"],
     "bots":  ["Service Cloud for Slack", "Salesforce", "DocuSign"]
@@ -58,6 +58,10 @@ Launch the agent (via the Agent tool) with a single JSON payload:
   actually passed local schema validation, not that the agent assumed so.
 - **All files written with the Write tool — never via bash.** JSON and Block Kit contain
   braces+quotes that trip the shell's "expansion obfuscation" guard.
+- **`output_dir` is per-customer.** The controller sets `output_dir` to a single
+  `output/<customer-slug>/` folder shared by every channel in the run, so each customer's
+  build stays self-contained. The agent writes its two files there and echoes the paths back
+  in Contract B — it does not choose or create a different folder.
 
 ---
 
@@ -103,9 +107,11 @@ python3 scripts/demo_upload.py roster --url <demo-url>
 # Validate a generated file (no network):
 python3 scripts/demo_upload.py validate <output_dir>/acct-acme-corp.json
 
-# Create the channel if missing (duplicate-guarded — safe to re-run):
-python3 scripts/demo_upload.py create-channel acct-acme-corp --url <demo-url>
+# Create the channel if missing (duplicate-guarded — safe to re-run).
+# DEFAULT: invite ONLY the conversation's participants — always pass --invite.
 python3 scripts/demo_upload.py create-channel acct-acme-corp --url <demo-url> --invite adam,jenny
+# Invite everyone in the workspace (omit --invite) ONLY when the user EXPLICITLY asks for it:
+python3 scripts/demo_upload.py create-channel acct-acme-corp --url <demo-url>
 
 # Preview the exact payload, then upload (append is the default):
 python3 scripts/demo_upload.py upload <file> --url <demo-url> --dry-run
@@ -128,9 +134,12 @@ a target demo-zone workspace. To turn those into account channels:
 1. `doctor --url <demo-url>` — confirm the token/workspace are good before authoring.
 2. `roster --url <demo-url>` — pull users + bots once.
 3. For each `account_<Name>.md`: launch a `conversation-author-agent` (Contract A) with that
-   file as `brief`, `channel = acct-<account-slug>`, and the shared roster. Run them in
-   parallel (batch ~8–10 at a time for large sets).
+   file as `brief`, `channel = acct-<account-slug>`, `output_dir = output/<customer-slug>/`
+   (reuse leeroy's customer slug verbatim so both tools stay aligned), and the shared roster.
+   Run them in parallel (batch ~8–10 at a time for large sets).
 4. Collect Contract B from each; preview all conversations together; one approval.
-5. `create-channel` for each (duplicate-guarded), then `upload` each file.
+5. `create-channel` for each (duplicate-guarded) with `--invite <participants>` — invite
+   ONLY the conversation's participants by default; never invite the whole workspace unless
+   the user explicitly asks. Then `upload` each file.
 
 No edits to leeroy are required — it already emits exactly the brief these agents consume.
